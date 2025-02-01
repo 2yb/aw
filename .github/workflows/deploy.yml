@@ -1,0 +1,26 @@
+name: Deploy Next.js App
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Next.js app (Skip TypeScript & ESLint)
+        run: |
+          NEXT_DISABLE_ESLINT_PLUGIN=true NEXT_IGNORE_ESLINT=true NEXT_IGNORE_TYPESCRIPT_ERRORS=true npm run build
